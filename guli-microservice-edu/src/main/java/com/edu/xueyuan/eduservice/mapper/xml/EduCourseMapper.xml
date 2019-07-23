@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.xueyuan.eduservice.mapper.EduCourseMapper">
+
+    <select id="selectCoursePublistById" resultType="com.edu.xueyuan.eduservice.entity.info.CoursePublish">
+        select
+        ec.title,
+        ec.cover,
+        ec.lesson_num AS lessonNum,
+        CONVERT(ec.price, DECIMAL(8,2)) AS price,
+        es.title AS subjectLevelOne,
+        esu.title AS subjectLevelTwo,
+        et.name AS teacherName
+        from edu_course as ec
+        LEFT join edu_teacher as et on ec.teacher_id=et.id
+        LEFT JOIN edu_course_description as ecd on ec.id=ecd.id
+        LEFT JOIN edu_subject as es on ec.subject_parent_id=es.id
+        LEFT JOIN edu_subject as esu on ec.subject_id=esu.id
+        where ec.id=#{id}
+    </select>
+
+
+    <select id="selectCourseById" resultType="com.edu.xueyuan.eduservice.entity.info.CourseFront">
+        select
+        ec.title,
+        ec.cover,
+				ecd.description,
+				et.intro,
+				et.avatar,
+        ec.lesson_num AS lessonNum,
+        CONVERT(ec.price, DECIMAL(8,2)) AS price,
+				ec.buy_count AS buyCount,
+				ec.view_count AS viewCount,
+				es.id AS subjectLevelOneId,
+				esu.id AS subjectLevelTwoId,
+        es.title AS subjectLevelOne,
+        esu.title AS subjectLevelTwo,
+        et.name AS teacherName
+        from edu_course as ec
+        LEFT join edu_teacher as et on ec.teacher_id=et.id
+        LEFT JOIN edu_course_description as ecd on ec.id=ecd.id
+        LEFT JOIN edu_subject as es on ec.subject_parent_id=es.id
+        LEFT JOIN edu_subject as esu on ec.subject_id=esu.id
+        where ec.id=#{id}
+
+
+
+
+    </select>
+
+</mapper>
